@@ -100,30 +100,7 @@ http://localhost:3000
 
 3. Oluşturduğunuz kullanıcı adı ve şifre ile giriş yapın
 
-### Ekran Görüntüleri
 
-<details>
-<summary>📸 Web Panel Ekran Görüntüleri</summary>
-
-**Dashboard**
-- Toplam oyuncu, para ve işlem istatistikleri
-- Son işlemler listesi
-- En zengin oyuncular
-
-**Oyuncu Yönetimi**
-- Oyuncu arama
-- Bakiye düzenleme
-- İşlem geçmişi görüntüleme
-
-**Ayarlar**
-- Para birimi sembolü
-- Başlangıç bakiyesi
-- Transfer vergisi
-- Ve daha fazlası...
-
-</details>
-
----
 
 ## ⚙️ Konfigürasyon
 
