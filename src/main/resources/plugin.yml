@@ -1,0 +1,40 @@
+name: Enoconomy
+version: '${project.version}'
+main: org.example.enoconomy.Enoconomy
+api-version: '1.13'
+authors: [Enoconomy]
+description: Advanced Minecraft Economy Plugin with Web Admin Panel
+softdepend: [PlaceholderAPI]
+
+commands:
+  money:
+    description: Bakiyenizi görüntüleyin
+    aliases: [balance, bal, para, bakiye]
+    usage: /money [oyuncu]
+  pay:
+    description: Başka bir oyuncuya para gönderin
+    aliases: [transfer, gonder, odeme]
+    usage: /pay <oyuncu> <miktar>
+  top:
+    description: En zengin oyuncuları görüntüleyin
+    aliases: [baltop, moneytop, siralama]
+    usage: /top [sayfa]
+  enoconomy:
+    description: Enoconomy admin komutları
+    aliases: [eco, economy]
+    permission: enoconomy.admin
+    usage: /enoconomy <give|take|set|reset|reload|stats|webadmin|webpanel>
+
+permissions:
+  enoconomy.admin:
+    description: Tüm ekonomi yönetim yetkilerine sahip olur
+    default: op
+  enoconomy.balance:
+    description: Kendi bakiyesini görme yetkisi
+    default: true
+  enoconomy.balance.others:
+    description: Başkalarının bakiyesini görme yetkisi
+    default: op
+  enoconomy.pay:
+    description: Para transfer etme yetkisi
+    default: true

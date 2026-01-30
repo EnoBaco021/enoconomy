@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enoconomy - Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content login-box">
+            <div class="login-header">
+                <i class="fas fa-coins logo-icon"></i>
+                <h1>Enoconomy</h1>
+                <p>Admin Kontrol Paneli</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Kullanıcı Adı</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Şifre</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </button>
+                <p id="loginError" class="error-text"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="mainContainer" class="container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-coins"></i>
+                <h2>Enoconomy</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="players">
+                    <i class="fas fa-users"></i>
+                    <span>Oyuncular</span>
+                </a>
+                <a href="#" class="nav-item" data-page="transactions">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>İşlemler</span>
+                </a>
+                <a href="#" class="nav-item" data-page="leaderboard">
+                    <i class="fas fa-trophy"></i>
+                    <span>Sıralama</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-danger btn-block">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button id="sidebarToggle" class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="server-status">
+                        <span class="status-dot online"></span>
+                        <span id="onlineCount">0</span> Oyuncu Online
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-user-shield"></i>
+                        <span id="adminUsername">Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-primary">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalPlayers">0</h3>
+                            <p>Toplam Oyuncu</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-success">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalMoney">$0</h3>
+                            <p>Toplam Para</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-warning">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalTransactions">0</h3>
+                            <p>Toplam İşlem</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-info">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="onlinePlayers">0</h3>
+                            <p>Online Oyuncu</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-history"></i> Son İşlemler</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tarih</th>
+                                            <th>Gönderen</th>
+                                            <th>Alıcı</th>
+                                            <th>Miktar</th>
+                                            <th>Tür</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentTransactions">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-trophy"></i> En Zenginler</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="leaderboard-list" id="topPlayersList">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Players Page -->
+            <div id="playersPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> Oyuncu Listesi</h3>
+                        <div class="card-actions">
+                            <input type="text" id="playerSearch" placeholder="Oyuncu ara..." class="search-input">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="playersTable">
+                            <thead>
+                                <tr>
+                                    <th>Oyuncu</th>
+                                    <th>Bakiye</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playersList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Page -->
+            <div id="transactionsPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exchange-alt"></i> İşlem Geçmişi</h3>
+                        <div class="card-actions">
+                            <select id="transactionFilter" class="filter-select">
+                                <option value="all">Tümü</option>
+                                <option value="TRANSFER">Transfer</option>
+                                <option value="ADMIN">Admin İşlemleri</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tarih</th>
+                                    <th>Gönderen</th>
+                                    <th>Alıcı</th>
+                                    <th>Miktar</th>
+                                    <th>Tür</th>
+                                    <th>Açıklama</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Page -->
+            <div id="leaderboardPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-trophy"></i> En Zengin Oyuncular</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="leaderboard-full" id="fullLeaderboard">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settingsPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cog"></i> Ekonomi Ayarları</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="configForm">
+                            <div class="settings-form-grid">
+                                <div class="form-group">
+                                    <label for="configCurrencySymbol">Para Birimi Sembolü</label>
+                                    <input type="text" id="configCurrencySymbol" class="form-control" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configCurrencyName">Para Birimi Adı</label>
+                                    <input type="text" id="configCurrencyName" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configCurrencyNamePlural">Para Birimi Adı (Çoğul)</label>
+                                    <input type="text" id="configCurrencyNamePlural" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configStartingBalance">Başlangıç Bakiyesi</label>
+                                    <input type="number" id="configStartingBalance" class="form-control" min="0" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configMaxBalance">Maksimum Bakiye</label>
+                                    <input type="number" id="configMaxBalance" class="form-control" min="0" step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configTransferTax">Transfer Vergisi (%)</label>
+                                    <input type="number" id="configTransferTax" class="form-control" min="0" max="100" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="configMinTransfer">Minimum Transfer</label>
+                                    <input type="number" id="configMinTransfer" class="form-control" min="0" step="0.01">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Ayarları Kaydet
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="loadSettings()">
+                                    <i class="fas fa-undo"></i> Sıfırla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> Sunucu Bilgisi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label>Sunucu Versiyonu</label>
+                                <span id="serverVersion">-</span>
+                            </div>
+                            <div class="setting-item">
+                                <label>Plugin Versiyonu</label>
+                                <span id="pluginVersion">-</span>
+                            </div>
+                            <div class="setting-item">
+                                <label>Maksimum Oyuncu</label>
+                                <span id="maxPlayers">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-key"></i> API Bilgisi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="api-key-container">
+                            <label>API Anahtarınız</label>
+                            <div class="api-key-display">
+                                <input type="password" id="apiKeyDisplay" readonly>
+                                <button class="btn btn-secondary" id="toggleApiKey">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-secondary" id="copyApiKey">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Player Edit Modal -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Oyuncu Düzenle</h3>
+                <button class="modal-close" id="closePlayerModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="player-info-header">
+                    <div class="player-avatar">
+                        <img id="playerAvatar" src="" alt="Player Avatar">
+                    </div>
+                    <div class="player-details">
+                        <h2 id="playerModalName">Oyuncu Adı</h2>
+                        <p id="playerModalUUID">UUID</p>
+                    </div>
+                </div>
+                <div class="player-balances">
+                    <div class="balance-item">
+                        <label>Bakiye</label>
+                        <span id="playerModalBalance">$0</span>
+                    </div>
+                </div>
+                <hr>
+                <h4>Bakiye İşlemi</h4>
+                <form id="balanceForm">
+                    <input type="hidden" id="editPlayerUUID">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>İşlem Türü</label>
+                            <select id="balanceAction" class="form-control">
+                                <option value="set">Bakiye Ayarla</option>
+                                <option value="add">Para Ekle</option>
+                                <option value="remove">Para Çıkar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Miktar</label>
+                            <input type="number" id="balanceAmount" class="form-control" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Uygula
+                    </button>
+                </form>
+                <hr>
+                <h4>Son İşlemler</h4>
+                <div class="player-transactions">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Tür</th>
+                                <th>Miktar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="playerTransactionsList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="toast-icon fas fa-check-circle"></i>
+        <span class="toast-message"></span>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

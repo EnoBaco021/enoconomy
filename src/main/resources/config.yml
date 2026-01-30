@@ -1,0 +1,65 @@
+# ================================
+# Enoconomy Configuration
+# Advanced Economy Plugin
+# ================================
+
+# Veritabanı ayarları
+database:
+  # Veritabanı tipi: sqlite veya mysql
+  type: sqlite
+
+  # MySQL ayarları (type: mysql ise)
+  mysql:
+    host: localhost
+    port: 3306
+    database: enoconomy
+    username: root
+    password: ""
+
+# Ekonomi ayarları
+economy:
+  # Başlangıç bakiyesi
+  starting-balance: 100.0
+
+  # Maksimum bakiye limiti
+  max-balance: 1000000000.0
+
+  # Para birimi sembolü
+  currency-symbol: "$"
+
+  # Sembol pozisyonu: before veya after
+  symbol-position: before
+
+  # Para birimi adı
+  currency-name: "Coin"
+  currency-name-plural: "Coins"
+
+  # Para formatı
+  format: "#,##0.00"
+
+  # Transfer vergisi (yüzde olarak)
+  transfer-tax: 0.0
+
+  # Minimum transfer miktarı
+  min-transfer: 1.0
+
+  # Yeni oyunculara hoş geldin mesajı
+  welcome-message: true
+
+# Web panel ayarları
+web-panel:
+  # Web paneli etkinleştir/devre dışı bırak
+  enabled: true
+
+  # Web panel portu
+  port: 3000
+
+# Mesajlar
+messages:
+  prefix: "&6[Enoconomy] &r"
+  no-permission: "&cBu işlem için yetkiniz yok!"
+  player-not-found: "&cOyuncu bulunamadı!"
+  invalid-amount: "&cGeçersiz miktar!"
+  insufficient-funds: "&cYetersiz bakiye!"
+  transfer-success: "&a{amount} başarıyla {player} adlı oyuncuya gönderildi!"
+  transfer-received: "&a{player} adlı oyuncudan {amount} aldınız!"
